@@ -8,5 +8,8 @@ namespace Library
 {
     internal class Admin
     {
+        private string name; //
+        private string id; //
+        private string password; //
     }
 }

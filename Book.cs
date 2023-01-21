@@ -6,7 +6,10 @@
         private int id; // id книги
         private string title; // название книги 
         private string author; // автор книги
-
+        private string description; // текстовое описание книги
+        private bool status; // true если есть в наличие, false если на руках
+        private int[] queue; // очередь желающих получить данную книгу (номера читательских билетов)
+       
         // констуктор класс Book, создаёт объект данного класса
         public Book(string title, string author)
         {
@@ -33,6 +36,19 @@
         {
             get { return author; }
             set { author = value; }
+        }
+
+        // свойства поля description, позволяют олучить описание книги и добавить новое
+        public string Description
+        {
+            get { return description; }
+            set { description = value; }
+        }
+
+        // свойство поля status, позволяет получить текущий статус
+        public bool Status
+        {
+            get { return status; }
         }
     }
 }
