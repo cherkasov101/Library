@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,18 +9,40 @@ namespace Library
 {
     public class Admin
     {
+        public static Admin activeAdmin = null; //
         private string name; //
         private int id; //
         private string password; //
-        private static int nexId = 100; //
+        private static int nexId = 0; //
+        private static string fileNameNextId = "nextId.txt"; //
 
         //
         public Admin(string name, string password)
         {
             this.name = name;
             this.password = password;
+            if (nexId <= 0)
+            {
+                string dataNextId = File.ReadAllText(fileNameNextId);
+                try
+                {
+                    nexId = Convert.ToInt32(dataNextId);
+                }
+                catch (Exception) 
+                { 
+                    nexId = -1;
+                }
+            }  
             this.id = nexId;
             nexId++;
+        }
+
+        //
+        public Admin(int id, string name, string password)
+        {
+            this.name = name;
+            this.password = password;
+            this.id = id;
         }
 
         //
@@ -40,7 +63,6 @@ namespace Library
         public int Id
         {
             get { return id; }
-            set { id = value; }
         }
 
         //
@@ -81,6 +103,12 @@ namespace Library
 
         //
         public void GetBook()
+        {
+
+        }
+
+        //
+        public void createNewAdmin()
         {
 
         }

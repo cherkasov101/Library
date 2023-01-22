@@ -17,5 +17,17 @@ namespace Library
         {
 
         }
+
+        //
+        public int GetByTitle(string title)
+        {
+            return titleCatalog[title];
+        }
+
+        //
+        public int GetByAuthor(string author)
+        {
+            return authorCatalog[author];
+        }
     }
 }
