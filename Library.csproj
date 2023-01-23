@@ -49,7 +49,7 @@
     <Compile Include="Admin.cs" />
     <Compile Include="Book.cs" />
     <Compile Include="Catalog.cs" />
-    <Compile Include="Login.cs" />
+    <Compile Include="Service.cs" />
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -71,6 +71,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="bin\Debug\Library.exe.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -83,6 +84,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\AdminDB.txt" />
+    <Content Include="bin\Debug\Library.exe" />
+    <Content Include="bin\Debug\Library.pdb" />
+    <Content Include="bin\Debug\nextId.txt" />
+    <Content Include="bin\Debug\UserDB.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Release\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

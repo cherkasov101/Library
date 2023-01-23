@@ -12,33 +12,33 @@ namespace Library
 {
     public partial class LoginForm : Form
     {
-        private bool enterForAdmin = false; //
-        private Login login;
+        private bool enterForAdmin = false; // нужно для разделения авторизации сотрудников и читателей
+        private Service service;
 
         public LoginForm()
         {
             InitializeComponent();
 
-            //
-            login = new Login();
+            // создание объекта класс Service для аботы приложения, добавление надписей в поля ввода
+            service = new Service();
             idTextBox.Text = "Номер билета";
             passwordTextBox.Text = "Пароль";
         }
 
-        //
+        // кнопка выхода
         private void exitLabel_Click(object sender, EventArgs e)
         {
             this.Close();
             Application.Exit();
         }
 
-        //
+        // кнопка сворачивания
         private void collapseLabel_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
         }
 
-        //
+        // отчищение поля ввода пароля
         private void passwordTextBox_MouseClick(object sender, MouseEventArgs e)
         {
             passwordTextBox.Text = "";
@@ -46,7 +46,7 @@ namespace Library
             this.passwordTextBox.ForeColor = Color.Black;
         }
 
-        //
+        // отчищение поля ввода читательского билета или id
         private void idTextBox_MouseClick(object sender, MouseEventArgs e)
         {
             idTextBox.Text = "";
@@ -58,7 +58,7 @@ namespace Library
             this.idTextBox.ForeColor = Color.Black;
         }
 
-        //
+        // создание возможности перемещения окна по экрану
         Point lastPoint;
 
         private void loginFormPanel_MouseDown(object sender, MouseEventArgs e)
@@ -75,6 +75,7 @@ namespace Library
             }
         }
 
+        // функции до следующего комментария нужны для визуальных эффектов на форме при наведение курсора
         private void exitLabel_MouseEnter(object sender, EventArgs e)
         {
             this.exitLabel.ForeColor = Color.FromArgb((byte)115, (byte)241, (byte)220);
@@ -115,6 +116,7 @@ namespace Library
             this.registrationLabel.ForeColor= Color.White;
         }
 
+        // кнопка входа
         private void enterButton_Click(object sender, EventArgs e)
         {
             string idText = this.idTextBox.Text;
@@ -123,13 +125,13 @@ namespace Library
             try
             {
                 id = Convert.ToInt32(idText);
+                service.UserLogin(id, password);
+                MessageBox.Show(User.activeUser.Name);
             }
             catch (Exception)
             {
                 MessageBox.Show("Некорректный ввод");
             }
-            login.AdminLogin(id, password);
-            MessageBox.Show(Admin.activeAdmin.Name);
         }
     }
 }
