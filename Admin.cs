@@ -66,15 +66,16 @@ namespace Library
         }
 
         // добавление новой книги
-        public void AddBook()
+        public void AddBook(string title, string author, string description)
         {
-            
+            Book book = new Book(title, author, description);
+            Service.catalog.AddBook(book);
         }
 
         // удаление книги
-        public void RemoveBook()
+        public void RemoveBook(int id)
         {
-
+            Service.catalog.DeleteBook(id);
         }
 
         // редактирование названия книги
@@ -96,41 +97,51 @@ namespace Library
         }
 
         // выдача книги читателю
-        public void GiveBook()
+        public void GiveBook(int bookId, int userTicket)
         {
-
+            Service.catalog.ChangeStatus(bookId);
         }
 
         // прием книги от читателя
-        public void GetBook()
+        public string GetBook(int id)
         {
-
+            Book book = Service.catalog.GetById(id);
+            if (book.Queue.Count != 0)
+            {
+                User user = Service.GetUser(book.Queue[0]);
+                Service.catalog.ChangeStatus(book.Id);
+                return "книгу ждёт читатель: " + user.Name + " " + user.PhoneNumber;
+            }
+            else
+            {
+                Service.catalog.ChangeStatus(book.Id);
+                return "книга в библиотеке";
+            }
         }
 
         // регистрация нового сотрудника
         public void createNewAdmin(string name, string password)
         {
             Admin adm = new Admin(name, password);
-            Service.addAdmin(nexId, adm);
-            nexId++;
+            Service.addAdmin(adm.id, adm);
         }
 
         // получить список всех книг
-        public Catalog ViewAllBooks()
+        public List<Book> ViewAllBooks()
         {
-            return new Catalog();
+            return Service.catalog.allBooks();
         }
 
         // икать книгу по автору
-        public Book SearchBookByAuthor()
+        public Book SearchBookByAuthor(string author)
         {
-            return new Book("", "");
+            return Service.catalog.GetByAuthor(author);
         }
 
         // искать книгу по названию
-        public Book SearchBookByTitle()
+        public Book SearchBookByTitle(string title)
         {
-            return new Book("", "");
+            return Service.catalog.GetByTitle(title);
         }
     }
 }

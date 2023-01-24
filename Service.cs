@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Library
 {
@@ -13,7 +10,7 @@ namespace Library
         private static Dictionary<int, Admin> admins = new Dictionary<int, Admin>(); // хранит сотрудников
         private static string userDB = "UserDB.txt"; // путь к файлу со спискем читателей
         private static string adminDB = "AdminDB.txt"; // путь к файлу со списком сотрудников
-        public Catalog catalog; // каталог книг
+        public static Catalog catalog = new Catalog(); // каталог книг
 
         // конструктор класса Login, используется для загрузки данных о пользователях из файлов
         public Service()
@@ -65,8 +62,6 @@ namespace Library
                 Admin adm = new Admin(id, a[1], a[2]);
                 admins.Add(id, adm);
             }
-
-            catalog = new Catalog();
         }
 
         // авторизация читателя
@@ -118,15 +113,11 @@ namespace Library
         }
 
         // регистрация читателя
-        public void Registration()
+        public void Registration(string name, string password,
+            DateTime birthday, string phoneNumber)
         {
-
-        }
-
-        // добавить читателя
-        public static void addUser(int ticket, User usr)
-        {
-            users.Add(ticket, usr);
+            User usr = new User(name, password, birthday, phoneNumber);
+            users.Add(usr.TicketNumber, usr);
         }
 
         // добавить сотрудника
@@ -140,6 +131,43 @@ namespace Library
         {
             catalog.SaveData();
 
-        } 
+            string usersData = "";
+            foreach (User user in users.Values)
+            {
+                usersData += Convert.ToString(user.TicketNumber) + ";";
+                usersData += user.Name + ";";
+                string year = user.Birthday.Year.ToString();
+                string month = user.Birthday.Month.ToString();
+                string day = user.Birthday.Day.ToString();
+                usersData += year + "-" + month + "-" + day + ";";
+                usersData += user.PhoneNumber + ";";
+                string onHands = "";
+                foreach (int id in user.OnHandBooks)
+                {
+                    onHands += Convert.ToString(id) + "-";
+                }
+                usersData += onHands + ";";
+                string returned = "";
+                foreach (int id in user.ReturnedBooks)
+                {
+                    returned += Convert.ToString(id) + "-";
+                }
+                usersData += returned + ";" + user.Password + "\n";
+            }
+            File.WriteAllText(userDB, usersData);
+
+            string adminData = "";
+            foreach(Admin admin in admins.Values)
+            {
+                adminData += Convert.ToString(admin.Id) + ";";
+                adminData += admin.Name + ";" + admin.Password + "\n";
+            }
+        }
+        
+        // передаёт пользователя из списка
+        public static User GetUser(int id)
+        {
+            return users[id];
+        }
     }
 }

@@ -92,27 +92,27 @@ namespace Library
 
 
         // получить список всех книг
-        public Catalog ViewAllBooks() 
+        public List<Book> ViewAllBooks() 
         {
-            return new Catalog();
+            return Service.catalog.allBooks();
         }
 
         // икать книгу по автору
-        public Book SearchBookByAuthor()
+        public Book SearchBookByAuthor(string author)
         {
-            return new Book("", "");
+            return Service.catalog.GetByAuthor(author);
         }
 
         // искать книгу по названию
-        public Book SearchBookByTitle()
+        public Book SearchBookByTitle(string title)
         {
-            return new Book("", "");
+            return Service.catalog.GetByTitle(title);
         }
 
         // оставить заявку на книгу
-        public void SubmitApplication()
+        public void SubmitApplication(int bookId)
         {
-
+            Service.catalog.Reserve(bookId, this.ticketNumber);
         }
     }
 }

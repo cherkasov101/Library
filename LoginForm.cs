@@ -126,7 +126,6 @@ namespace Library
             {
                 id = Convert.ToInt32(idText);
                 service.UserLogin(id, password);
-                MessageBox.Show(User.activeUser.Name);
             }
             catch (Exception)
             {
